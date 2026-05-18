@@ -27,6 +27,7 @@
 
 #include "find_replace_dialog.h"
 #include "notepad_exception.h"
+#include "simple_game_dialog.h"
 #include "spell_check_text_edit.h"
 #include "spell_checker_highlighter.h"
 #include "text_transform.h"
@@ -85,6 +86,7 @@ MainWindow::MainWindow(QWidget* parent)
     , editor_(nullptr)
     , highlighter_(nullptr)
     , findDialog_(nullptr)
+    , simpleGameDialog_(nullptr)
     , wordFreqDialog_(nullptr)
     , wordCountLabel_(nullptr)
     , lineCountLabel_(nullptr)
@@ -92,9 +94,13 @@ MainWindow::MainWindow(QWidget* parent)
     , boldAction_(nullptr)
     , italicAction_(nullptr)
     , underlineAction_(nullptr)
+    , fontAction_(nullptr)
+    , textColorAction_(nullptr)
+    , simpleGameAction_(nullptr)
     , recentFilesMenu_(nullptr)
     , zoomLevel_(0)
 {
+    resize(900, 600);
     setupEditor();
     setupMenus();
     setupToolBar();
@@ -201,10 +207,12 @@ void MainWindow::setupMenus()
     underlineAction_->setIcon(QIcon("data/images/underline.svg"));
 
     formatMenu->addSeparator();
-    formatMenu->addAction("Font...", this, &MainWindow::chooseFont);
-    formatMenu->addAction("Text Color...", this, &MainWindow::chooseTextColor);
+    fontAction_ = formatMenu->addAction("Font...", this, &MainWindow::chooseFont);
+    textColorAction_ = formatMenu->addAction("Text Color...", this, &MainWindow::chooseTextColor);
 
     QMenu* toolsMenu = menuBar()->addMenu("Tools");
+    simpleGameAction_ = toolsMenu->addAction("Simple Game", this, &MainWindow::showSimpleGame);
+    toolsMenu->addSeparator();
     toolsMenu->addAction("Word Frequency", this, &MainWindow::showWordFrequency);
     toolsMenu->addAction("Check Spelling...", this, &MainWindow::checkSpelling);
 
@@ -223,6 +231,13 @@ void MainWindow::setupToolBar()
     formatToolBar->addAction(boldAction_);
     formatToolBar->addAction(italicAction_);
     formatToolBar->addAction(underlineAction_);
+    formatToolBar->addSeparator();
+    formatToolBar->addAction(fontAction_);
+    formatToolBar->addAction(textColorAction_);
+
+    QToolBar* gameToolBar = addToolBar("Game");
+    gameToolBar->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    gameToolBar->addAction(simpleGameAction_);
 }
 
 void MainWindow::setupStatusBar()
@@ -403,6 +418,17 @@ void MainWindow::showFindReplace()
     findDialog_->show();
     findDialog_->raise();
     findDialog_->activateWindow();
+}
+
+void MainWindow::showSimpleGame()
+{
+    if (!simpleGameDialog_) {
+        simpleGameDialog_ = new SimpleGameDialog(this);
+    }
+
+    simpleGameDialog_->show();
+    simpleGameDialog_->raise();
+    simpleGameDialog_->activateWindow();
 }
 
 void MainWindow::showWordFrequency()

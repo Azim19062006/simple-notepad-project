@@ -14,6 +14,7 @@ class QAction;
 class QLabel;
 class QMenu;
 class FindReplaceDialog;
+class SimpleGameDialog;
 class SpellCheckerHighlighter;
 class SpellCheckTextEdit;
 class WordFrequencyDialog;
@@ -30,6 +31,7 @@ private slots:
     void saveFile();
     void saveFileAs();
     void showFindReplace();
+    void showSimpleGame();
     void showWordFrequency();
     void checkSpelling();
     void transformUppercase();
@@ -69,6 +71,7 @@ private:
     SpellChecker spellChecker_;
     SpellCheckerHighlighter* highlighter_;
     FindReplaceDialog* findDialog_;
+    SimpleGameDialog* simpleGameDialog_;
     WordFrequencyDialog* wordFreqDialog_;
     QLabel* wordCountLabel_;
     QLabel* lineCountLabel_;
@@ -76,6 +79,9 @@ private:
     QAction* boldAction_;
     QAction* italicAction_;
     QAction* underlineAction_;
+    QAction* fontAction_;
+    QAction* textColorAction_;
+    QAction* simpleGameAction_;
     QMenu* recentFilesMenu_;
     QStringList recentFiles_;
     int zoomLevel_;

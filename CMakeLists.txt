@@ -17,6 +17,8 @@ qt_add_executable(
     word_frequency_dialog.h
     word_frequency_dialog.cpp
     notepad_exception.h
+    simple_game_dialog.h
+    simple_game_dialog.cpp
     text_transform.h
     sort.h
     spell_checker.h
